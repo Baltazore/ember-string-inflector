@@ -1,0 +1,12 @@
+{
+  "name": "string-utils",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.ts",
+  "scripts": {
+    "test": "bun test --watch"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT"
+}
