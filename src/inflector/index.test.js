@@ -98,14 +98,11 @@ describe('dsl', () => {
     expect(inflector.singularize('userPreferences')).toBe('userPreferences', 'irregular singularization rule was applied on camelcase word');
     expect(inflector.pluralize('userPreferences')).toBe('userPreferences', 'irregular pluralization rule was applied on camelcase word');
   });
-
-
 });
+
 describe('unit', () => {
-
-
   it('plurals', () => {
-    var inflector = new Inflector({
+    inflector = new Inflector({
       plurals: [
         [/$/, 's'],
         [/s$/i, 's']
@@ -116,7 +113,7 @@ describe('unit', () => {
   });
 
   it('singularization', () => {
-    var inflector = new Inflector({
+    inflector = new Inflector({
       singular: [
         [/s$/i, ''],
         [/(ss)$/i, '$1']
@@ -127,7 +124,7 @@ describe('unit', () => {
   });
 
   it('singularization of irregular singulars', () => {
-    var inflector = new Inflector({
+    inflector = new Inflector({
       singular: [
         [/s$/i, ''],
         [/(ss)$/i, '$1']
@@ -141,7 +138,7 @@ describe('unit', () => {
   });
 
   it('pluralization of irregular plurals', () => {
-    var inflector = new Inflector({
+    inflector = new Inflector({
       plurals: [
         [/$/, 's']
       ],
@@ -154,7 +151,7 @@ describe('unit', () => {
   });
 
   it('plural', () => {
-    var inflector = new Inflector({
+    inflector = new Inflector({
       plurals: [
         ['1', '1'],
         ['2', '2'],
@@ -166,7 +163,7 @@ describe('unit', () => {
   });
 
   it('singular', () => {
-    var inflector = new Inflector({
+    inflector = new Inflector({
       singular: [
         ['1', '1'],
         ['2', '2'],
@@ -178,7 +175,7 @@ describe('unit', () => {
   });
 
   it('irregular', () => {
-    var inflector = new Inflector({
+    inflector = new Inflector({
       irregularPairs: [
         ['1', '12'],
         ['2', '22'],
@@ -186,17 +183,17 @@ describe('unit', () => {
       ]
     });
 
-    expect(inflector.rules.irregular['1']).toBe('12')
-    expect(inflector.rules.irregular['2']).toBe('22')
-    expect(inflector.rules.irregular['3']).toBe('32')
+    expect(inflector.rules.irregular.get('1')).toBe('12')
+    expect(inflector.rules.irregular.get('2')).toBe('22')
+    expect(inflector.rules.irregular.get('3')).toBe('32')
 
-    expect(inflector.rules.irregularInverse['12']).toBe('1')
-    expect(inflector.rules.irregularInverse['22']).toBe('2')
-    expect(inflector.rules.irregularInverse['32']).toBe('3')
+    expect(inflector.rules.irregularInverse.get('12')).toBe('1')
+    expect(inflector.rules.irregularInverse.get('22')).toBe('2')
+    expect(inflector.rules.irregularInverse.get('32')).toBe('3')
   });
 
   it('uncountable', () => {
-    var inflector = new Inflector({
+    inflector = new Inflector({
       uncountable: [
         '1',
         '2',
@@ -204,26 +201,26 @@ describe('unit', () => {
       ]
     });
 
-    expect(inflector.rules.uncountable['1']).toBe(true)
-    expect(inflector.rules.uncountable['2']).toBe(true)
-    expect(inflector.rules.uncountable['3']).toBe(true)
+    expect(inflector.rules.uncountable.get('1')).toBe(true)
+    expect(inflector.rules.uncountable.get('2')).toBe(true)
+    expect(inflector.rules.uncountable.get('3')).toBe(true)
   });
 
   it('inflect.nothing', () => {
-    var inflector = new Inflector();
+    inflector = new Inflector();
 
     expect(inflector.inflect('', [])).toBe('');
     expect(inflector.inflect(' ', [])).toBe(' ');
   });
 
   it('inflect.noRules', () => {
-    var inflector = new Inflector();
+    inflector = new Inflector();
 
     expect(inflector.inflect('word', [])).toBe('word');
   });
 
   it('inflect.uncountable', () => {
-    var inflector = new Inflector({
+    inflector = new Inflector({
       plural: [
         [/$/, 's']
       ],
@@ -232,40 +229,40 @@ describe('unit', () => {
       ]
     });
 
-    var rules = [];
+    let rules = [];
 
     expect(inflector.inflect('word', rules)).toBe('word');
   });
 
   it('inflect.irregular', () => {
-    var inflector = new Inflector({
+    inflector = new Inflector({
       irregularPairs: [
         ['word', 'wordy']
       ]
     });
 
-    var rules = [];
+    let rules = [];
 
     expect(inflector.inflect('word', rules, inflector.rules.irregular)).toBe('wordy');
     expect(inflector.inflect('wordy', rules, inflector.rules.irregularInverse)).toBe('word');
   });
 
   it('inflect.basicRules', () => {
-    var inflector = new Inflector();
-    var rules = [[/$/, 's']];
+    inflector = new Inflector();
+    let rules = [[/$/, 's']];
 
     expect(inflector.inflect('word', rules)).toBe('words');
   });
 
   it('inflect.advancedRules', () => {
-    var inflector = new Inflector();
-    var rules = [[/^(ox)$/i, '$1en']];
+    inflector = new Inflector();
+    let rules = [[/^(ox)$/i, '$1en']];
 
     expect(inflector.inflect('ox', rules)).toBe('oxen');
   });
 
   it('Inflector.defaultRules', () => {
-    var rules = Inflector.defaultRules;
+    let rules = Inflector.defaultRules;
     expect(rules).toBeTruthy('has defaultRules');
   });
 
@@ -274,7 +271,7 @@ describe('unit', () => {
   });
 
   it('new Inflector with defaultRules matches docs', () => {
-    var inflector = new Inflector(Inflector.defaultRules);
+    inflector = new Inflector(Inflector.defaultRules);
 
     // defaultRules includes these special rules
     expect(inflector.pluralize('cow')).toBe('kine');
@@ -288,31 +285,31 @@ describe('unit', () => {
   });
 
   it('words containing irregular and uncountable words can be pluralized', () => {
-    var inflector = new Inflector(Inflector.defaultRules);
+    inflector = new Inflector(Inflector.defaultRules);
     expect(inflector.pluralize('woman')).toBe('women');
     expect(inflector.pluralize('salesperson')).toBe('salespeople');
   });
 
 
   it('words containing irregular and uncountable words can be singularized', () => {
-    var inflector = new Inflector(Inflector.defaultRules);
+    inflector = new Inflector(Inflector.defaultRules);
     expect(inflector.singularize('women')).toBe('woman');
     expect(inflector.singularize('salespeople')).toBe('salesperson');
     expect(inflector.singularize('pufferfish')).toBe('pufferfish');
   });
 
   it('partial words containing uncountable words can be pluralized', () => {
-    var inflector = new Inflector(Inflector.defaultRules);
+    inflector = new Inflector(Inflector.defaultRules);
     expect(inflector.pluralize('price')).toBe('prices');
   });
 
   it('partial words containing uncountable words can be singularized', () => {
-    var inflector = new Inflector(Inflector.defaultRules);
+    inflector = new Inflector(Inflector.defaultRules);
     expect(inflector.singularize('subspecies')).toBe('subspecy');
   });
 
   it('CamelCase and UpperCamelCase is preserved for irregular and uncountable pluralizations', () => {
-    var inflector = new Inflector(Inflector.defaultRules);
+    inflector = new Inflector(Inflector.defaultRules);
     expect(inflector.pluralize('SuperWoman')).toBe('SuperWomen');
     expect(inflector.pluralize('superWoman')).toBe('superWomen');
     expect(inflector.pluralize('SuperMan')).toBe('SuperMen');
@@ -323,7 +320,7 @@ describe('unit', () => {
 
 
   it('CamelCase and UpperCamelCase is preserved for irregular and uncountable singularization', () => {
-    var inflector = new Inflector(Inflector.defaultRules);
+    inflector = new Inflector(Inflector.defaultRules);
     expect(inflector.singularize('SuperWomen')).toBe('SuperWoman');
     expect(inflector.singularize('superWomen')).toBe('superWoman');
     expect(inflector.singularize('SuperMen')).toBe('SuperMan');
@@ -333,7 +330,7 @@ describe('unit', () => {
   });
 
   it('CamelCase custom irregular words', () => {
-    var inflector = new Inflector(Inflector.defaultRules);
+    inflector = new Inflector(Inflector.defaultRules);
     inflector.irregular('unitOfMeasure', 'unitsOfMeasure');
     inflector.irregular('tipoDocumento', 'tiposDocumento');
 
@@ -345,7 +342,7 @@ describe('unit', () => {
   });
 
   it('Inflector.pluralize passes same test cases as ActiveSupport::Inflector#pluralize', () => {
-    var inflector = new Inflector(Inflector.defaultRules);
+    inflector = new Inflector(Inflector.defaultRules);
 
     expect(inflector.pluralize('search')).toBe('searches');
     expect(inflector.pluralize('switch')).toBe('switches');
@@ -436,7 +433,7 @@ describe('unit', () => {
   });
 
   it('Inflector.singularize passes same test cases as ActiveSupport::Inflector#singularize', () => {
-    var inflector = new Inflector(Inflector.defaultRules);
+    inflector = new Inflector(Inflector.defaultRules);
 
     expect(inflector.singularize('searches')).toBe('search');
     expect(inflector.singularize('switches')).toBe('switch');
@@ -527,13 +524,13 @@ describe('unit', () => {
   });
 
   it('Inflector.singularize can singularize "bonuses"', () => {
-    var inflector = new Inflector(Inflector.defaultRules);
+    inflector = new Inflector(Inflector.defaultRules);
 
     expect(inflector.singularize('bonuses')).toBe('bonus');
   });
 
   it('Inflector.singularize can pluralize "bonus"', () => {
-    var inflector = new Inflector(Inflector.defaultRules);
+    inflector = new Inflector(Inflector.defaultRules);
 
     expect(inflector.pluralize('bonus')).toBe('bonuses');
   });
